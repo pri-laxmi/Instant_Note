@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="popUp.css">
+    <title>PopUp</title>
+</head>
+<body>
+    <div class="comp1">
+      <div class="contentArea">
+        <div class="main-head">
+        <img src="assest/NOTE IT DOWN (1).png">
+      </div>
+      
+      <div class="selectedTxt">
+       <label>
+        <img src="assest/selected text.png">
+       </label>
+       <textarea id="selectedText" readonly>
+       </textarea>
+      </div>
+
+      <div class="tabs">
+        <button id="createNew" class="tab active">Create New</button>
+        <button id="existing" class="tab">Existing Note</button>
+      </div>
+
+      <div class="newSection">
+        <div class="Title">
+          <img src="assest/title.png">
+          <input id="title" placeholder="Note title" >
+        </div>
+        <div class="tag">
+          <img src="assest/tags.png">
+          <input id="tags" placeholder="Tags" >
+        </div>
+        <div class="NoteC">
+          <img src="assest/note.png">
+          <textarea id="noteC" placeholder="Write your note here..."></textarea>
+        </div>
+      </div>
+
+      <div class="oldSection">
+        <select id="existingNotes" >
+          <option value="">Select a note</option>
+        </select>
+        <div class="NoteE">
+          <img src="assest/note.png">
+          <textarea id="noteE" placeholder="write your note here..."></textarea>
+        </div>
+      </div>
+      </div>
+     <div id="save">
+       <button id="saveButton">Save</button>
+     </div>
+   </div>
+  <script src="popUp.js"></script>
+</body>
+</html>

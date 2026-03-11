@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "save-thought-extension",
+    "version": "1.0",
+    "description": "Save highlighted text as thoughts",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"},
+  "action": {
+    "default_popup": "popUp.html"
+  },
+  
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ]
+
+
+}
