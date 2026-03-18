@@ -79,4 +79,4 @@ async function fetchNotes(){
     }
 }
 
-
+document.addEventListener("DOMContentLoaded", fetchNotes);

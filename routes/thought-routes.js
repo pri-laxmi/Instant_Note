@@ -108,7 +108,7 @@ router.post('/api/notes',async(req,res)=>{
     }
 });
 //add to existing note
-router.post('/api/note/:noteid/thoughts',async(req,res)=>{
+router.post('/api/note/',async(req,res)=>{
     try{
         const note=await Note.findById(req.params.noteid);
         note.Thought.push({
