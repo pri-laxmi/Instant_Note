@@ -1,82 +1,111 @@
-//get selected text value
-document.addEventListener('DOMContentLoaded',()=>{
-    chrome.storage.local.get(
-        ['selectedText','pageTitle','pageUrl'],
-        (data)=>{
-            document.getElementById('selectedText').value=data.selectedText || '';
-        }
-    )
-});
-//send info to backend
-document.getElementById('saveButton').addEventListener('click', async () => {
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ✅ Load selected text
+  chrome.storage.local.get(
+    ['selectedText','pageTitle','pageUrl'],
+    (data)=>{
+      document.getElementById('selectedText').value = data.selectedText || '';
+    }
+  );
+
+  // ✅ Toggle logic
+  const createNew = document.getElementById('createNew');
+  const existingBtn = document.getElementById('existing');
+  const newSection = document.querySelector('.newSection');
+  const oldSection = document.querySelector('.oldSection');
+
+  oldSection.classList.add('hidden');
+
+  createNew.addEventListener('click', () => {
+    createNew.classList.add('active');
+    existingBtn.classList.remove('active');
+    newSection.classList.remove('hidden');
+    oldSection.classList.add('hidden');
+  });
+
+  existingBtn.addEventListener('click', () => {
+    existingBtn.classList.add('active');
+    createNew.classList.remove('active');
+    newSection.classList.add('hidden');
+    oldSection.classList.remove('hidden');
+  });
+
+  // ✅ Fetch existing notes
+  async function fetchNotes(){
+    try{
+      const res = await fetch("http://localhost:8000/api/notes");
+      const data = await res.json();
+
+      console.log("Fetched notes:", data); // DEBUG
+
+      const select = document.getElementById('existingNotes');
+
+      data.forEach(note => {
+        const option = document.createElement('option');
+        option.value = note._id;
+        option.textContent = note.title;
+        select.appendChild(option);
+      });
+
+    } catch(e){
+      console.error("Failed to fetch notes", e);
+    }
+  }
+
+  fetchNotes();
+
+  // ✅ Save button
+  document.getElementById('saveButton').addEventListener('click', async () => {
+
     const selectedText = document.getElementById('selectedText');
     const title = document.getElementById('title').value;
     const note = document.getElementById('noteC');
     const tags = document.getElementById('tags').value
-        .split(",")
-        .map(tag => tag.trim());
-    chrome.storage.local.get(
-        ['pageTitle', 'pageUrl'],
-        async (data) => {
-            await fetch('http://localhost:8000/api/notes', {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({
-                    title: title || data.pageTitle || "Untitled",
-                    tags,
-                    selectedText: selectedText.value,
-                    note: note.value,
-                    pageTitle: data.pageTitle,
-                    pageUrl: data.pageUrl
-                })
-            });
-            document.getElementById('selectedText').value = '';
-            document.getElementById('noteC').value = '';
-            document.getElementById('tags').value = '';
-            document.getElementById('title').value = '';
-            chrome.storage.local.remove(['selectedText', 'pageTitle', 'pageUrl']);
-            window.close();
-        }
-    );
-});
-//toggle tags
+      .split(",")
+      .map(tag => tag.trim());
 
-const createNew=document.getElementById('createNew');
-const existingNotes=document.getElementById('existing');
-const newSection=document.querySelector('.newSection');
-const oldSection=document.querySelector('.oldSection');
- oldSection.classList.add('hidden');
-createNew.addEventListener('click',()=>{
-    createNew.classList.add('active');
-    existingNotes.classList.remove('active');
-    newSection.classList.remove('hidden');
-    oldSection.classList.add('hidden');
-});
-existingNotes.addEventListener('click',()=>{
-    existingNotes.classList.add('active');
-    createNew.classList.remove('active');
-    newSection.classList.add('hidden');
-    oldSection.classList.remove('hidden');
-});
+    const noteId = document.getElementById('existingNotes').value;
+    const iscreate = document.getElementById('createNew').classList.contains('active');
 
-//create note option
-async function fetchNotes(){
-    try{
-        const res =await fetch("http://localhost:8000/api/notes");
-        const data=await res.json();
-        const note=document.getElementById('existingNotes');
-        data.forEach(notes=>{
-            const option=document.createElement('option');
-            option.value=notes._id;
-            option.textContent=notes.title;
-            note.appendChild(option);
-        })
+    try {
 
-    }catch(e){
-        console.error("Failed to fetch notes",e);
+      if (iscreate) {
+        await fetch("http://localhost:8000/api/notes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            tags,
+            selectedText: selectedText.value,
+            note: note.value,
+            pageTitle: document.title,
+            pageUrl: window.location.href
+          })
+        });
+
+      } else {
+        await fetch(`http://localhost:8000/api/notes/${noteId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            selectedText: selectedText.value,
+            note: note.value,
+            pageTitle: document.title,
+            pageUrl: window.location.href
+          })
+        });
+      }
+
+      alert("Saved!");
+      window.close();
+
+    } catch (err) {
+      console.error(err);
     }
-}
+  });
 
-document.addEventListener("DOMContentLoaded", fetchNotes);
+});
+
+
+
+

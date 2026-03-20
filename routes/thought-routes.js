@@ -14,15 +14,7 @@ const Note=require('../models/thought-models');
     }
 
 );*/
-//get all notes
-router.get('/api/notes',async(req,res)=>{
-    try{
-        const thought=await Note.find({userId:"defaultUser"});
-        res.json(thought);
-    }catch(err){
-        res.status(500).json({error:'failed to fetch notes'});
-    }
-});
+
 //delete note
 router.delete('/api/notes/:id',async(req,res)=>{
     try{
@@ -77,7 +69,7 @@ router.patch('/api/notes/:id/star',async(req,res)=>{
     }
 });
 //get starred notes
-router.get('/api/thoughts/starred',async(req,res)=>{
+router.get('/api/notes/starred',async(req,res)=>{
     try{
         const starredThoughts=await Note.find({isStarred:true});
         res.json(starredThoughts);
@@ -108,9 +100,9 @@ router.post('/api/notes',async(req,res)=>{
     }
 });
 //add to existing note
-router.post('/api/note/',async(req,res)=>{
+router.post('/api/notes/:noteId',async(req,res)=>{
     try{
-        const note=await Note.findById(req.params.noteid);
+        const note=await Note.findById(req.params.noteId);
         note.Thought.push({
             selectedText:req.body.selectedText,
             note:req.body.note,
