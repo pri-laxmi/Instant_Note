@@ -29,7 +29,7 @@ function Dashboard(){
                     {/* Main Content */}
                     <div style={{ flex: 1, background: '#fff', padding: 0, minHeight: '100vh', height: '100vh', display: 'flex', flexDirection: 'column' }}>
                         <div style={{ display: 'flex', alignItems: 'center', margin: '40px 0 32px 0', paddingLeft: 32, paddingRight: 32 }}>
-                            <h1 style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: 32, letterSpacing: 2, margin: 0 }}>HELLO , USER!</h1>
+                            <h1 style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: 32, letterSpacing: 2, margin: 0 }}>HELLO , PRIYA!</h1>
                             <div style={{ flex: 1 }} />
                             <div style={{ width: 520, marginLeft: 0, marginRight: 40 }}>
                                 <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />

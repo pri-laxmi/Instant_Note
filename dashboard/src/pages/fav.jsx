@@ -7,7 +7,7 @@ function Fav() {
 	const [notes, setNotes] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
-		fetch('http://localhost:8000/api/thoughts/starred')
+		fetch('http://localhost:8000/api/notes/starred')
 			.then(res => res.json())
 			.then(data => setNotes(data));
 	}, []);

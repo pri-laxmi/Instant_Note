@@ -12,17 +12,8 @@ function Sidebar() {
             height: '100vh',
             borderRight: 'none',
         }}>
-            <div style={{ marginTop: 32, marginBottom: 16 }}>
-                <div style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: '50%',
-                    background: '#fff',
-                    margin: '0 auto',
-                    border: 'none',
-                }} />
-            </div>
-            <div style={{ fontWeight: 700, fontSize: 28, marginBottom: 24, fontFamily: 'monospace', letterSpacing: 1 }}>USER</div>
+          
+            <div style={{ fontWeight: 700, fontSize: 28, marginTop: 32, marginBottom: 24, fontFamily: 'monospace', letterSpacing: 1 }}></div>
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
                 <Link to='/' style={{
                     width: 140,
